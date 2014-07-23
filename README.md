@@ -1,5 +1,5 @@
-BnpServiceDefinition
-====================
+BnpLazyListener
+===============
 
 [![Build Status](https://travis-ci.org/buonaparte/BnpLazyListener.svg?branch=master)](https://travis-ci.org/buonaparte/BnpLazyListener)
 [![Coverage Status](https://img.shields.io/coveralls/buonaparte/BnpLazyListener.svg)](https://coveralls.io/r/buonaparte/BnpLazyListener?branch=master)
