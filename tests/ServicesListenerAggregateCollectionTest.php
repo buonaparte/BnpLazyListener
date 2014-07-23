@@ -12,6 +12,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 use BnpLazyListener\Exception\RuntimeException;
+use Zend\Stdlib\ArrayObject;
 
 class ServicesListenerAggregateCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -196,6 +197,31 @@ class ServicesListenerAggregateCollectionTest extends \PHPUnit_Framework_TestCas
         $event = new Event('baz');
         $this->events->trigger($event);
         $this->assertEquals('baz', $event->getParam('foo'));
+    }
+
+    public function invalidLazyAggregateListenerSpecificationsProvider()
+    {
+        return array(
+            array(
+                array(new ArrayObject())
+            ),
+            array(
+                array(null)
+            )
+        );
+    }
+
+    /**
+     * @param array $delegates
+     * @dataProvider invalidLazyAggregateListenerSpecificationsProvider
+     * @expectedException RuntimeException
+     */
+    public function testWillThrowExceptionWhenDelegateDoesNotResolveToListenerAggregate(array $delegates)
+    {
+        $listener = new ServicesListenerAggregateCollection($delegates);
+        $listener->setServiceLocator(new ServiceManager());
+
+        $this->events->attach($listener);
     }
 
     public function testWillThrowLazyExceptionOnInvalidLazyFactory()
