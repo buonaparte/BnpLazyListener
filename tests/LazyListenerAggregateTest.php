@@ -2,6 +2,7 @@
 
 namespace BnpLazyListener;
 
+use BnpLazyListener\Exception\InvalidArgumentException;
 use BnpLazyListener\Mock\PlainListener;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventInterface;
@@ -60,6 +61,38 @@ class LazyListenerAggregateTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('BnpLazyListener\Exception\RuntimeException');
         $this->events->trigger('foo');
+    }
+
+    public function invalidEventSpecificationsProvider()
+    {
+        return array(
+            array(
+                array('foo' => new \ArrayObject())
+            ),
+            array(
+                array(
+                    'foo' => array(
+                        new \ArrayObject()
+                    )
+                )
+            ),
+            array(
+                array(
+                    'foo' => array(new \ArrayObject(), 1, null)
+                )
+            )
+        );
+    }
+
+    /**
+     * @param array $specs
+     * @dataProvider invalidEventSpecificationsProvider
+     * @expectedException InvalidArgumentException
+     */
+    public function testWillThrowExceptionOnInvalidEventSpecification(array $specs)
+    {
+        $this->events->attach(new LazyListenerAggregate($this->plainListenerFactory, $specs));
+        $this->events->trigger(new Event('foo'));
     }
 
     public function testDeclaredListenerMustExistAsInstanceMethodOnCreateObject()

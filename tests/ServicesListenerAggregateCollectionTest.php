@@ -149,6 +149,7 @@ class ServicesListenerAggregateCollectionTest extends \PHPUnit_Framework_TestCas
                     return new ListenerAggregate();
                 }
             )),
+            array(array('BnpLazyListener\Mock\ListenerAggregate')),
             array(array(
                 array('plain_listener', $plainListenerSubscribedEvents)
             )),
@@ -205,6 +206,9 @@ class ServicesListenerAggregateCollectionTest extends \PHPUnit_Framework_TestCas
             ),
             array(
                 array(new PlainListenerFactory(), 'not_an_array')
+            ),
+            array(
+                array(new PlainListenerFactory(), null)
             )
         );
     }

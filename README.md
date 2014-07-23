@@ -111,12 +111,13 @@ utility listener comes in handy.
 ServicesListenerAggregateCollection
 -----------------------------------
 
-This is a `ServiceLocatorAware` service that is able to Aggregate a collection of other `ListenerAggregate`s, from which,
+This is a `ServiceLocatorAware` service that is able to aggregate a collection of other `ListenerAggregate`s, from which,
 the most important one is that described above.
 All atom listeners are called delegates and can be represented as:
 
 * `callable` - a callable to invoke to instantiate the delegate, optionally a `ServiceLocatorInterface`
 is passed as the only argument
+* `string` (a valid FQ class name implementing `Zend\EventManager\ListenerAggregateInterface`)
 * `string` (a valid FQ class name implementing `Zend\ServiceManager\FactoryInterface`)
 * `Zend\ServiceManager\FactoryInterface` instance
 * `string` - not matching a factory class name - will make `ServicesListenerAggregateCollection` to pull the delegate

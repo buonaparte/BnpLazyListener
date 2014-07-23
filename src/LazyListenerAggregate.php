@@ -124,7 +124,7 @@ class LazyListenerAggregate implements ListenerAggregateInterface
                     $listener = array($listener);
                 }
 
-                if (! is_array($listener)) {
+                if (! is_array($listener) || empty($listener)) {
                     throw new InvalidArgumentException(sprintf(
                         'Each %s:%s listener must be either an not empty array or string as listener, %s provided',
                         get_class($this),
@@ -135,6 +135,13 @@ class LazyListenerAggregate implements ListenerAggregateInterface
 
                 $method = array_shift($listener);
                 $priority = array_shift($listener);
+
+                if (! is_string($method)) {
+                    throw new InvalidArgumentException(sprintf(
+                        'Method call as listener can only be a string, %s provided',
+                        is_object($method) ? get_class($method) : gettype($method)
+                    ));
+                }
 
                 $callback = function () use ($self, $method) {
                     $args = func_get_args();
