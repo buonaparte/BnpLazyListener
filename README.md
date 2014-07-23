@@ -16,7 +16,7 @@ Installation
 
     ```json
     "require": {
-        "buonaparte/bnp-lazy-listener": "dev-master"
+        "buonaparte/bnp-lazy-listener": "0.9.*"
     }
     ```
 
