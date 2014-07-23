@@ -198,34 +198,6 @@ class ServicesListenerAggregateCollectionTest extends \PHPUnit_Framework_TestCas
         $this->assertEquals('baz', $event->getParam('foo'));
     }
 
-    public function invalidLazyAggregateListenerSpecificationsProvider()
-    {
-        return array(
-            array(
-                array(new PlainListenerFactory(), array())
-            ),
-            array(
-                array(new PlainListenerFactory(), 'not_an_array')
-            ),
-            array(
-                array(new PlainListenerFactory(), null)
-            )
-        );
-    }
-
-    /**
-     * @param array $delegates
-     * @dataProvider invalidLazyAggregateListenerSpecificationsProvider
-     * @expectedException RuntimeException
-     */
-    public function testWillThrowExceptionWhenLazyAggregateDelegateHasInvalidListenerSpecifications(array $delegates)
-    {
-        $listener = new ServicesListenerAggregateCollection($delegates);
-        $listener->setServiceLocator(new ServiceManager());
-
-        $this->events->attach($listener);
-    }
-
     public function testWillThrowLazyExceptionOnInvalidLazyFactory()
     {
         $listener = new ServicesListenerAggregateCollection(array(array(1, array('foo' => 'onFoo'))));

@@ -111,13 +111,6 @@ class ServicesListenerAggregateCollection implements
                 $factory = array_shift($delegate);
                 $subscribedEvents = array_shift($delegate);
 
-                if (! is_array($subscribedEvents) || empty($subscribedEvents)) {
-                    throw new RuntimeException(sprintf(
-                        'Collection delegate at index %d has invalid or empty listeners for LazyListenerAggregate',
-                        $i + 1
-                    ));
-                }
-
                 $delegate = new LazyListenerAggregate(
                     function () use ($canCreateListenerFromFactory, $factory, $i) {
                         if (! $canCreateListenerFromFactory($factory)) {
